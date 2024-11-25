@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "818148572846",
+    "project_id": "indiebazaar-c9a7f",
+    "storage_bucket": "indiebazaar-c9a7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818148572846:android:ad97bb24b03326a118373f",
+        "android_client_info": {
+          "package_name": "com.company.IndieBazaar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818148572846-86kuollehc7a4j4ued04bp3nlnoprnd0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS40M4xT2LMwyp1u_ZAlOiGFyGFPuhi_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818148572846-86kuollehc7a4j4ued04bp3nlnoprnd0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
