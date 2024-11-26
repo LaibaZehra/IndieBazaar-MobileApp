@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image,  ScrollView  } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { db } from '../../firebase/firebase'; // Firebase setup
 import DropDown from '../../components/dropdown/dropdown'; // Dropdown component
 import { collection, query, where, getDocs } from 'firebase/firestore'; // Firestore functions
@@ -10,11 +10,13 @@ const BrowseBusinesses = () => {
     const [businesses, setBusinesses] = useState([]);
     const [selectedBusiness, setSelectedBusiness] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [loading, setLoading] = useState(false); // Loading state
 
     const allCategories = ['Food', 'Accessories', 'Clothes', 'Decor', 'Health', 'Book', 'Stationary', 'Handmade'];
 
     // Fetch businesses from Firebase
     const fetchBusinesses = async () => {
+        setLoading(true); // Start loading
         try {
             let q;
             if (selectedCategories.length > 0) {
@@ -27,21 +29,18 @@ const BrowseBusinesses = () => {
             }
     
             const querySnapshot = await getDocs(q);
-            const fetchedBusinesses = querySnapshot.docs.map(doc => {
-                console.log(doc.id, doc.data());  // Log the document ID and its data
-                return {
-                    id: doc.id,
-                    ...doc.data(),
-                };
-            });
+            const fetchedBusinesses = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
     
-            console.log("Fetched businesses:", fetchedBusinesses); // Log the fetched businesses array
-            setBusinesses(fetchedBusinesses);
+            setBusinesses(fetchedBusinesses); // Set the fetched businesses
         } catch (error) {
             console.error('Error fetching businesses: ', error);
+        } finally {
+            setLoading(false); // End loading
         }
     };
-    
 
     // Fetch businesses when `selectedCategories` changes
     useEffect(() => {
@@ -60,11 +59,9 @@ const BrowseBusinesses = () => {
         console.log("yay")
         navigation.navigate('BusinessHome', { businessId: business.id, businessName: business.name });
     };
-    
 
     return (
         <View style={styles.container}>
-
             {/* Business Name Dropdown */}
             <DropDown
                 options={businesses.map(business => business.name)} // Options populated dynamically
@@ -100,24 +97,30 @@ const BrowseBusinesses = () => {
                 ))}
             </View>
 
-            {/* Display Businesses */}
-            <FlatList
-                data={filteredBusinesses}
-                keyExtractor={(item) => item.id}
-                numColumns={2}
-                contentContainerStyle={styles.businessesContainer} // Use this for custom styles
-                ListEmptyComponent={<Text style={styles.businessName}>No businesses found in this category.</Text>} // For empty lists
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={styles.businessCard}
-                        onPress={() => handleBusinessClick(item)}
-                    >
-                        <Image source={{ uri: item.logo }} style={styles.businessImage} />
-                        <Text style={styles.businessName}>{item.name}</Text>
-                    </TouchableOpacity>
-                )}
-            />
+            {/* Loading Indicator */}
+            {loading && (
+                <ActivityIndicator size="large" color="#5A189A" style={styles.loadingIndicator} />
+            )}
 
+            {/* Display Businesses */}
+            {!loading && (
+                <FlatList
+                    data={filteredBusinesses}
+                    keyExtractor={(item) => item.id}
+                    numColumns={2}
+                    contentContainerStyle={styles.businessesContainer} // Use this for custom styles
+                    ListEmptyComponent={<Text style={styles.businessName}>No businesses found in this category.</Text>} // For empty lists
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            style={styles.businessCard}
+                            onPress={() => handleBusinessClick(item)}
+                        >
+                            <Image source={{ uri: item.logo }} style={styles.businessImage} />
+                            <Text style={styles.businessName}>{item.name}</Text>
+                        </TouchableOpacity>
+                    )}
+                />
+            )}
         </View>
     );
 };
@@ -184,7 +187,9 @@ const styles = StyleSheet.create({
         color: '#5A189A',
         marginTop: 15,
         textAlign: 'center',
-
+    },
+    loadingIndicator: {
+        marginTop: 20,
     },
 });
 

@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'; // Icons for tabs
 // Import pages for Tab Navigator
 import CategoriesPage from './pages/categoriespage/categoriespage';
 import BrowseBusinesses from './pages/browsebusinesses/browsebusinessespage';
+import AdminPage from './pages/adminpage/adminpage'; // Adjust the path as necessary
 
 // Import Business Home page for Stack Navigator
 import BusinessHome from './pages/businesshome/businesshomepage'; // Adjust the path as necessary
@@ -27,6 +28,8 @@ const TabNavigator = () => (
                     iconName = focused ? 'list-circle' : 'list-circle-outline';
                 } else if (route.name === 'Browse') {
                     iconName = focused ? 'search' : 'search-outline';
+                } else if (route.name === 'Admin') {
+                    iconName = focused ? 'settings' : 'settings-outline';
                 }
 
                 return <Ionicons name={iconName} size={size} color={color} />;
@@ -72,6 +75,7 @@ const TabNavigator = () => (
                 ),
             }}
         />
+        <Tab.Screen name="Admin" component={AdminPage} />
     </Tab.Navigator>
 );
 
