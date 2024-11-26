@@ -5,12 +5,15 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from "../../firebase/firebase";
 import BusinessBanner from "../../components/businessbanner/businessbanner";
 import BusinessInfo from "../../components/businessinfo/businessinfo";
+import { useNavigation } from '@react-navigation/native';
 
 const BusinessPage = () => {
+    const navigation = useNavigation();
     const route = useRoute();
     const [business, setBusiness] = useState(null);
     const [loading, setLoading] = useState(true);
     const { businessId } = route.params || {}; // Safeguard for missing parameter
+    const { businessName } = route.params || {};
 
     useEffect(() => {
         if (!businessId) {
@@ -20,6 +23,13 @@ const BusinessPage = () => {
 
         fetchBusiness();
     }, [businessId]);
+
+    useEffect(() => {
+        if (businessName) {
+            // Update the header title dynamically
+            navigation.setOptions({ title: businessName });
+        }
+    }, [businessName, navigation]);
 
     const fetchBusiness = async () => {
         try {
@@ -57,10 +67,10 @@ const BusinessPage = () => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <BusinessBanner 
+            {/* <BusinessBanner 
                 title={business.name} 
                 slogan={business.slogan || "Welcome to our business!"} 
-            />
+            /> */}
             <BusinessInfo businessId={business.id} />
         </ScrollView>
     );
@@ -69,7 +79,7 @@ const BusinessPage = () => {
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#B2E3D8',
         padding: 20,
     },
     centered: {
@@ -83,7 +93,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     errorText: {
-        color: 'red',
+        color: '#5A189A',
         fontSize: 16,
         fontWeight: 'bold',
     },

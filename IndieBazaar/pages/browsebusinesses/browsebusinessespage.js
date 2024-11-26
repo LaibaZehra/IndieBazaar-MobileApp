@@ -58,7 +58,7 @@ const BrowseBusinesses = () => {
 
     const handleBusinessClick = (business) => {
         console.log("yay")
-        navigation.navigate('BusinessHome', { businessId: business.id });
+        navigation.navigate('BusinessHome', { businessId: business.id, businessName: business.name });
     };
     
 

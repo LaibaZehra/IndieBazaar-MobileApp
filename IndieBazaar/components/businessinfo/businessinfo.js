@@ -21,7 +21,7 @@ const BusinessInfo = ({ businessId }) => {
 
                     const items = data.items || [];
                     const shuffledItems = items.sort(() => 0.5 - Math.random());
-                    const selectedItems = shuffledItems.slice(0, 3);
+                    const selectedItems = shuffledItems.slice(0, 5);
                     setRandomItems(selectedItems);
                 } else {
                     console.error("No such document!");
@@ -57,7 +57,7 @@ const BusinessInfo = ({ businessId }) => {
             />
 
             <TouchableOpacity style={styles.productsButton} onPress={navigateToProducts}>
-                <Text style={styles.productsButtonText}>View Our Products</Text>
+                <Text style={styles.productsButtonText}>View More Products</Text>
             </TouchableOpacity>
         </View>
     );
@@ -65,9 +65,8 @@ const BusinessInfo = ({ businessId }) => {
 
 const styles = StyleSheet.create({
     infoContainer: {
-        marginTop: 20,
         padding: 20,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#E6E1FF',
         borderRadius: 10,
         elevation: 3,
     },
@@ -75,11 +74,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10,
+        color: '#5A189A',
     },
     description: {
         fontSize: 16,
         marginBottom: 20,
-        color: '#555',
+        color: '#5A189A',
     },
     carousel: {
         flexDirection: 'row',
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     },
     itemCard: {
         width: 120,
-        marginRight: 15,
         alignItems: 'center',
     },
     itemImage: {

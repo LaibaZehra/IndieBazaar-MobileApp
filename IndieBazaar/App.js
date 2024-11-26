@@ -44,7 +44,6 @@ const TabNavigator = () => (
                 headerStyle: {
                     backgroundColor: '#B2E3D8', // Background color of the header
                 },
-                headerTintColor: '#FFFFFF',
                 headerTitle: () => (
                     <View style={{ width: 120, height: 40, marginLeft: -10 }}>
                         <Image
@@ -63,7 +62,6 @@ const TabNavigator = () => (
                 headerStyle: {
                     backgroundColor: '#B2E3D8', 
                 },
-                headerTintColor: '#FFFFFF',
                 headerTitle: () => (
                     <View style={{ width: 120, height: 40, marginLeft: -10 }}>
                         <Image
@@ -93,9 +91,11 @@ const App = () => {
                     name="BusinessHome"
                     component={BusinessHome}
                     options={{
-                        title: 'Business Details', // Customize header title
-                        headerStyle: { backgroundColor: '#6200EE' },
-                        headerTintColor: '#fff',
+                        // title: 'Business Details', // Default title
+                        headerStyle: {
+                            backgroundColor: '#B2E3D8', 
+                        },
+                        headerTintColor: '#5A189A',
                     }}
                 />
             </Stack.Navigator>
