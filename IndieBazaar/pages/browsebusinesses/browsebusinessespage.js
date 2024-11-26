@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image,  ScrollView  } from 'react-native';
 import { db } from '../../firebase/firebase'; // Firebase setup
 import DropDown from '../../components/dropdown/dropdown'; // Dropdown component
 import { collection, query, where, getDocs } from 'firebase/firestore'; // Firestore functions
@@ -64,7 +64,6 @@ const BrowseBusinesses = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Browse Businesses</Text>
 
             {/* Business Name Dropdown */}
             <DropDown
@@ -102,26 +101,23 @@ const BrowseBusinesses = () => {
             </View>
 
             {/* Display Businesses */}
-            <View style={styles.businessesContainer}>
-                {filteredBusinesses.length > 0 ? (
-                    <FlatList
-                    data={filteredBusinesses}
-                    keyExtractor={item => item.id} // This uses item.id
-                    numColumns={2}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            style={styles.businessCard}
-                            onPress={() => handleBusinessClick(item)} // Passing the whole item
-                        >
-                            <Image source={{ uri: item.logo }} style={styles.businessImage} />
-                            <Text style={styles.businessName}>{item.name}</Text>
-                        </TouchableOpacity>
-                    )}
-                />
-                ) : (
-                    <Text>No businesses found in this category.</Text>
+            <FlatList
+                data={filteredBusinesses}
+                keyExtractor={(item) => item.id}
+                numColumns={2}
+                contentContainerStyle={styles.businessesContainer} // Use this for custom styles
+                ListEmptyComponent={<Text style={styles.businessName}>No businesses found in this category.</Text>} // For empty lists
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                        style={styles.businessCard}
+                        onPress={() => handleBusinessClick(item)}
+                    >
+                        <Image source={{ uri: item.logo }} style={styles.businessImage} />
+                        <Text style={styles.businessName}>{item.name}</Text>
+                    </TouchableOpacity>
                 )}
-            </View>
+            />
+
         </View>
     );
 };
@@ -129,61 +125,66 @@ const BrowseBusinesses = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
-        padding: 20,
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 20,
+        backgroundColor: '#B2E3D8',
     },
     filterBoxContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginBottom: 20,
+        justifyContent: 'space-evenly',
+        padding: 10,
     },
     filterButton: {
-        backgroundColor: '#E0E0E0',
+        backgroundColor: '#E6E1FF',
         padding: 10,
         margin: 5,
         borderRadius: 5,
     },
     filterButtonSelected: {
-        backgroundColor: '#6200EE',
+        backgroundColor: '#5A189A',
     },
     filterButtonText: {
-        color: '#333',
+        color: '#5A189A',
         fontWeight: 'bold',
     },
     filterButtonTextSelected: {
-        color: '#FFF',
+        color: '#E6E1FF',
     },
     businessesContainer: {
-        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly',
+        padding: 10,
     },
     businessCard: {
-        backgroundColor: '#E0E0E0',
+        width: 150,
+        height: 180,
+        backgroundColor: '#E6E1FF',
         borderRadius: 10,
-        width: 160,
-        height: 220,
-        marginBottom: 20,
-        padding: 10,
+        margin: 10,
+        elevation: 4, // Adds shadow on Android
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        elevation: 5,
+        overflow: 'hidden',
+        paddingTop: 22,    // Padding on top
+        paddingRight: 10,  // Padding on right
+        paddingBottom: 15, // Padding on bottom
+        paddingLeft: 10,  
     },
     businessImage: {
         width: '100%',
-        height: 140,
-        borderRadius: 10,
-        marginBottom: 10,
+        height: '70%',
         resizeMode: 'cover',
     },
     businessName: {
         fontSize: 16,
         fontWeight: 'bold',
+        color: '#5A189A',
+        marginTop: 15,
         textAlign: 'center',
+
     },
 });
 

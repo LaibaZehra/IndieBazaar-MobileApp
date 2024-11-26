@@ -56,8 +56,9 @@ const DropDown = ({ options, onSelect, placeholder = 'Select an option' }) => {
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 10,
-        width: '100%',
+        marginVertical: 20,
+        width: '80%',
+        alignSelf: 'center', // Center align horizontally
     },
     dropdownTrigger: {
         flexDirection: 'row',
@@ -97,5 +98,6 @@ const styles = StyleSheet.create({
         color: '#333',
     },
 });
+
 
 export default DropDown;

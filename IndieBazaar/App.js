@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // Icons for tabs
 
 // Import pages for Tab Navigator
@@ -31,13 +31,49 @@ const TabNavigator = () => (
 
                 return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: '#6200EE',
-            tabBarInactiveTintColor: 'gray',
+            tabBarActiveTintColor: '#5A189A',
+            tabBarInactiveTintColor: '#a85bea',
             tabBarStyle: styles.tabBar,
         })}
     >
-        <Tab.Screen name="Categories" component={CategoriesPage} />
-        <Tab.Screen name="Browse" component={BrowseBusinesses} />
+        <Tab.Screen
+            name="Categories"
+            component={CategoriesPage}
+            options={{
+                tabBarLabel: 'Categories',
+                headerStyle: {
+                    backgroundColor: '#B2E3D8', // Background color of the header
+                },
+                headerTintColor: '#FFFFFF',
+                headerTitle: () => (
+                    <View style={{ width: 120, height: 40, marginLeft: -10 }}>
+                        <Image
+                            source={require('./assets/logoimage.jpg')} // Path to your logo image
+                            style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                        />
+                    </View>
+                ),
+            }}
+        />
+        <Tab.Screen
+            name="Browse"
+            component={BrowseBusinesses}
+            options={{
+                tabBarLabel: 'Browse',
+                headerStyle: {
+                    backgroundColor: '#B2E3D8', 
+                },
+                headerTintColor: '#FFFFFF',
+                headerTitle: () => (
+                    <View style={{ width: 120, height: 40, marginLeft: -10 }}>
+                        <Image
+                            source={require('./assets/logoimage.jpg')} // Path to your logo image
+                            style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                        />
+                    </View>
+                ),
+            }}
+        />
     </Tab.Navigator>
 );
 
@@ -69,9 +105,8 @@ const App = () => {
 
 const styles = StyleSheet.create({
     tabBar: {
-        backgroundColor: '#FFF',
-        borderTopWidth: 1,
-        borderTopColor: '#E0E0E0',
+        backgroundColor: '#B2E3D8',
+        // borderTopColor: '#E0E0E0',
     },
 });
 

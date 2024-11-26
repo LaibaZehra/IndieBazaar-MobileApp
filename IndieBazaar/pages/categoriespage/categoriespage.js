@@ -42,7 +42,7 @@ const CategoriesPage = () => {
                 onSelect={(selectedCategory) => {
                     console.log('Selected category:', selectedCategory);
                     // Navigate or filter based on the selected category
-                    handleCategorySelect(selectedCategory);
+                    setSelectedCategories(selectedCategory);
                 }}
                 placeholder="Select a category"
             />
@@ -65,7 +65,7 @@ const CategoriesPage = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8F9FA',
+        backgroundColor: '#B2E3D8',
     },
     categoriesContainer: {
         flexDirection: 'row',
@@ -74,9 +74,9 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     categoryCard: {
-        width: 160,
-        height: 200,
-        backgroundColor: '#FFF',
+        width: 150,
+        height: 180,
+        backgroundColor: '#E6E1FF',
         borderRadius: 10,
         margin: 10,
         elevation: 4, // Adds shadow on Android
@@ -86,7 +86,12 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         alignItems: 'center',
         overflow: 'hidden',
+        paddingTop: 22,    // Padding on top
+        paddingRight: 10,  // Padding on right
+        paddingBottom: 15, // Padding on bottom
+        paddingLeft: 10,  
     },
+    
     categoryImage: {
         width: '100%',
         height: '70%',
@@ -95,8 +100,9 @@ const styles = StyleSheet.create({
     categoryName: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
-        marginTop: 10,
+        color: '#5A189A',
+        marginTop: 20,
+        textAlign: 'center',
     },
 });
 
