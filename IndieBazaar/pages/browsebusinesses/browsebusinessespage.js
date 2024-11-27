@@ -123,7 +123,7 @@ const BrowseBusinesses = () => {
             )}
         </View>
     );
-};
+}; 
 
 const styles = StyleSheet.create({
     container: {

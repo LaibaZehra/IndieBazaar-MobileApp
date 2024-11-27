@@ -75,7 +75,24 @@ const TabNavigator = () => (
                 ),
             }}
         />
-        <Tab.Screen name="Admin" component={AdminPage} />
+         <Tab.Screen
+            name="Admin"
+            component={AdminPage}
+            options={{
+                tabBarLabel: 'Admin',
+                headerStyle: {
+                    backgroundColor: '#B2E3D8', 
+                },
+                headerTitle: () => (
+                    <View style={{ width: 120, height: 40, marginLeft: -10 }}>
+                        <Image
+                            source={require('./assets/logoimage.jpg')} // Path to your logo image
+                            style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                        />
+                    </View>
+                ),
+            }}
+        />
     </Tab.Navigator>
 );
 

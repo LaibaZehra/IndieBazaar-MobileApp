@@ -11,13 +11,13 @@ const AddBusinessButton = ({ onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#4CAF50',
-    padding: 15,
+    backgroundColor: '#E6E1FF',
+    padding: 12,
     borderRadius: 5,
-    alignItems: 'center',
+    marginTop: 20,
   },
   text: {
-    color: '#fff',
+    color: '#5A189A',
     fontSize: 16,
     fontWeight: 'bold',
   },

@@ -55,10 +55,11 @@ const BusinessInfo = ({ businessId }) => {
                 )}
                 contentContainerStyle={styles.carousel}
             />
-
-            <TouchableOpacity style={styles.productsButton} onPress={navigateToProducts}>
-                <Text style={styles.productsButtonText}>View More Products</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.productsButton} onPress={navigateToProducts}>
+                    <Text style={styles.productsButtonText}>View More Products</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -96,18 +97,25 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     itemName: {
-        fontSize: 14,
-        textAlign: 'center',
+        color: '#E6E1FF',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     productsButton: {
-        backgroundColor: '#6200EE',
+        backgroundColor: '#5A189A',
         padding: 10,
         borderRadius: 5,
+        alignItems: 'center',
+        width: 200,
+        marginTop: 10,
     },
     productsButtonText: {
-        color: '#FFFFFF',
-        textAlign: 'center',
+        color: '#E6E1FF',
+        fontSize: 16,
         fontWeight: 'bold',
+    },
+    buttonContainer: {
+        alignItems: 'center',
     },
 });
 
