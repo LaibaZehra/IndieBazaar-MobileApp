@@ -19,6 +19,7 @@ const AddBusiness = ({ onClose }) => {
   const [businessLogo, setBusinessLogo] = useState(null);
   const [category, setCategory] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false); // For category modal
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false); // For image upload options modal
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); // For success message
 
   const availableCategories = ['Food', 'Accessories', 'Clothes', 'Decor', 'Health', 'Book', 'Stationary', 'Handmade']; // Example categories
@@ -26,6 +27,16 @@ const AddBusiness = ({ onClose }) => {
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setBusinessLogo(result.assets[0].uri);
+    }
+  };
+
+  const takePhoto = async () => {
+    const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 1,
     });
@@ -94,11 +105,43 @@ const AddBusiness = ({ onClose }) => {
 
       {/* Upload Business Logo */}
       <Text style={styles.label}>Business Logo</Text>
-      <TouchableOpacity style={styles.uploadButton} onPress={pickImage}>
+      <TouchableOpacity style={styles.uploadButton} onPress={() => setIsImageModalVisible(true)}>
         <Text style={styles.uploadText}>{businessLogo ? 'Logo Selected' : 'Upload Logo'}</Text>
       </TouchableOpacity>
 
       {businessLogo && <Text style={styles.fileName}>Logo: {businessLogo.split('/').pop()}</Text>}
+
+      {/* Image Selection Modal */}
+      <Modal
+        visible={isImageModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsImageModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Select Image Option</Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={pickImage}
+            >
+              <Text style={styles.modalButtonText}>Upload from Gallery</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={takePhoto}
+            >
+              <Text style={styles.modalButtonText}>Take a Photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modalButton, styles.cancelButton]}
+              onPress={() => setIsImageModalVisible(false)}
+            >
+              <Text style={styles.modalButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       {/* Category Selection Modal */}
       <Modal
@@ -114,17 +157,11 @@ const AddBusiness = ({ onClose }) => {
               data={availableCategories}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  style={[
-                    styles.modalButton,
-                    category.includes(item) && styles.selectedCategory, // Apply selected style for multiple categories
-                  ]}
+                  style={[styles.modalButton, category.includes(item) && styles.selectedCategory]} // Apply selected style for multiple categories
                   onPress={() => handleCategorySelect(item)}
                 >
                   <Text
-                    style={[
-                      styles.modalButtonText,
-                      category.includes(item) && styles.selectedCategoryText, // Change text color for selected categories
-                    ]}
+                    style={[styles.modalButtonText, category.includes(item) && styles.selectedCategoryText]} // Change text color for selected categories
                   >
                     {item}
                   </Text>
@@ -237,46 +274,43 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
     width: '80%',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
     alignItems: 'center',
-    elevation: 5,
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 15,
     color: '#5A189A',
+    marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#5A189A',
     padding: 10,
+    marginBottom: 10,
     borderRadius: 5,
-    marginTop: 10,
-    width: '100%',
+    backgroundColor: '#5A189A',
     alignItems: 'center',
+    width: '100%',
   },
   modalButtonText: {
-    color: '#E6E1FF',
+    color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
   },
   cancelButton: {
     backgroundColor: 'red',
-    width: '50%',
   },
   selectedCategory: {
-    backgroundColor: '#E6E1FF', // New background color for selected category
+    backgroundColor: '#5A189A',
   },
   selectedCategoryText: {
-    color: '#5A189A', // Change text color for selected category
+    color: '#fff',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -285,15 +319,14 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     backgroundColor: '#5A189A',
-    padding: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
     borderRadius: 5,
-    flex: 1, // Make button take full width
-    marginHorizontal: 5,
-    alignItems: 'center',
+    marginBottom: 10,
   },
   submitText: {
-    color: '#E6E1FF',
-    fontSize: 16,
+    color: '#fff',
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });

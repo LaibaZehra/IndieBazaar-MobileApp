@@ -68,7 +68,7 @@ const AdminPage = () => {
           {!showAddBusiness && (
             <View style={styles.loggedInContainer}>
               <Text style={styles.welcomeText}>Welcome, Admin!</Text>
-              {/* <View style={styles.buttonRow}> */}
+              <View style={styles.buttonRow}>
                 <AddBusinessButton onPress={() => setShowAddBusiness(true)} />
                 <TouchableOpacity
                   style={styles.logoutButton}
@@ -76,7 +76,7 @@ const AdminPage = () => {
                 >
                   <Text style={styles.buttonText}>Logout</Text>
                 </TouchableOpacity>
-              {/* </View> */}
+              </View>
             </View>
           )}
 
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#B2E3D8',
-    padding: 40,
   },
   title: {
     fontSize: 24,
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 5,
     marginTop: 20,
-    width: '40%',
+    width: '30%',
     alignItems: 'center',
   },
   buttonText: {
@@ -160,8 +159,9 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between', // Space between the buttons
+    justifyContent: 'space-between',  // Space between the buttons
     marginTop: 20,
+    gap: 20,  // Added gap between the buttons
   },
   modalOverlay: {
     flex: 1,

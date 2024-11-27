@@ -56,7 +56,7 @@ const BusinessInfo = ({ businessId }) => {
                 contentContainerStyle={styles.carousel}
             />
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.productsButton} onPress={navigateToProducts}>
+                <TouchableOpacity style={styles.productsButton}>
                     <Text style={styles.productsButtonText}>View More Products</Text>
                 </TouchableOpacity>
             </View>
