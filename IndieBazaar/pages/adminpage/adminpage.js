@@ -44,6 +44,7 @@ const AdminPage = () => {
     <View style={styles.container}>
       {!isLoggedIn ? (
         <>
+        <View style={styles.admin}>
           <Text style={styles.title}>Admin Login</Text>
           <TextInput
             style={styles.input}
@@ -62,6 +63,7 @@ const AdminPage = () => {
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
+          </View>
         </>
       ) : (
         <>
@@ -111,17 +113,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#B2E3D8',
+    paddingVertical: 30,
+  },
+  admin: {
+    flex: 1,
+    width: '100%',
+    padding: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 0,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#5A189A',
+    textAlign: 'center',
   },
   input: {
     width: '100%',
     padding: 10,
-    marginVertical: 10,
+    marginVertical: 5,
     borderWidth: 1,
     borderColor: '#CCC',
     borderRadius: 5,
@@ -129,10 +141,10 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: '#5A189A',
-    padding: 12,
+    padding: 10,
     borderRadius: 5,
     marginTop: 10,
-    width: '100%',
+    width: '50%',
     alignItems: 'center',
   },
   logoutButton: {

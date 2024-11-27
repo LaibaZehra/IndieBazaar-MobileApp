@@ -121,6 +121,7 @@ const AddBusiness = ({ onClose }) => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Select Image Option</Text>
+            <View style={styles.catList}>
             <TouchableOpacity
               style={styles.modalButton}
               onPress={pickImage}
@@ -131,12 +132,14 @@ const AddBusiness = ({ onClose }) => {
               style={styles.modalButton}
               onPress={takePhoto}
             >
-              <Text style={styles.modalButtonText}>Take a Photo</Text>
+              <Text style={styles.modalButtonText}>Capture with Camera</Text>
             </TouchableOpacity>
+            </View>
             <TouchableOpacity
               style={[styles.modalButton, styles.cancelButton]}
               onPress={() => setIsImageModalVisible(false)}
             >
+              
               <Text style={styles.modalButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
@@ -153,22 +156,28 @@ const AddBusiness = ({ onClose }) => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Select Categories</Text>
-            <FlatList
-              data={availableCategories}
-              renderItem={({ item }) => (
+            <View style={styles.catList}>
+              {availableCategories.map((item, index) => (
                 <TouchableOpacity
-                  style={[styles.modalButton, category.includes(item) && styles.selectedCategory]} // Apply selected style for multiple categories
+                  key={index}
+                  style={[
+                    styles.modalButton,
+                    category.includes(item) ? styles.selectedCategory : styles.unselectedCategory, // Apply styles based on selection
+                  ]}
                   onPress={() => handleCategorySelect(item)}
                 >
                   <Text
-                    style={[styles.modalButtonText, category.includes(item) && styles.selectedCategoryText]} // Change text color for selected categories
+                    style={[
+                      styles.modalButtonText,
+                      category.includes(item) ? styles.selectedCategoryText : styles.unselectedCategoryText, // Change text color based on selection
+                    ]}
                   >
                     {item}
                   </Text>
                 </TouchableOpacity>
-              )}
-              keyExtractor={(item) => item}
-            />
+              ))}
+            </View>
+
             <TouchableOpacity
               style={[styles.modalButton, styles.cancelButton]}
               onPress={() => setIsModalVisible(false)}
@@ -227,6 +236,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     elevation: 3,
+    width: '80%',
   },
   label: {
     fontSize: 16,
@@ -272,6 +282,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  selectedCategoryText: {
+    color: '#E6E1FF',
+  },
   modalOverlay: {
     flex: 1,
     justifyContent: 'center',
@@ -290,6 +303,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#5A189A',
     marginBottom: 20,
+    textAlign: 'center',
   },
   modalButton: {
     padding: 10,
@@ -297,11 +311,24 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#5A189A',
     alignItems: 'center',
-    width: '100%',
+    width: '45%',
   },
   modalButtonText: {
     color: '#fff',
     fontSize: 16,
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 20,
+  },
+  catList: {
+    flexDirection: 'row', // Categories will be in a row
+    flexWrap: 'wrap', // Wrap to the next line if needed
+    justifyContent: 'center', // Space between categories
+    alignItems: 'center',
+    marginVertical: 10,
+    gap: 10,
+    textAlign: 'center',
   },
   cancelButton: {
     backgroundColor: 'red',
@@ -314,8 +341,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between', // Space between the buttons
+    justifyContent: 'center', // Space between the buttons
     marginTop: 20,
+    gap: 10,
+    marginBottom: 40,
   },
   submitButton: {
     backgroundColor: '#5A189A',
@@ -329,6 +358,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  selectedCategory: {
+    backgroundColor: '#E6E1FF', // Light gray for unselected categories
+  },
+  selectedCategoryText: {
+    color: '#5A189A', // Darker text for unselected categories
+  },
+  unselectedCategory: {
+    backgroundColor: '#5A189A', // Purple for selected categories
+  },
+  unselectedCategoryText: {
+    color: '#E6E1FF', // White text for selected categories
+  },
+  
 });
 
 export default AddBusiness;
