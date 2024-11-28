@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
   View,
   TextInput,
@@ -24,26 +25,46 @@ const AddBusiness = ({ onClose }) => {
 
   const availableCategories = ['Food', 'Accessories', 'Clothes', 'Decor', 'Health', 'Book', 'Stationary', 'Handmade']; // Example categories
 
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
-    if (!result.canceled) {
-      setBusinessLogo(result.assets[0].uri);
-    }
-  };
+  const uploadImageToStorage = async (uri) => {
+    try {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        
+        const storage = getStorage(); // Initialize Firebase Storage
+        const fileName = `businessLogos/${Date.now()}.jpg`; // Unique file name
+        const storageRef = ref(storage, fileName); // Create reference
 
-  const takePhoto = async () => {
-    const result = await ImagePicker.launchCameraAsync({
+        await uploadBytes(storageRef, blob); // Upload the file
+        const downloadURL = await getDownloadURL(storageRef); // Get the download URL
+
+        return downloadURL;
+    } catch (error) {
+        console.error('Error uploading image to Firebase Storage:', error);
+        throw error;
+    }
+};
+
+const pickImage = async () => {
+  const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
-    });
-    if (!result.canceled) {
-      setBusinessLogo(result.assets[0].uri);
-    }
-  };
+  });
+  if (!result.canceled) {
+      const downloadURL = await uploadImageToStorage(result.assets[0].uri); // Upload and get URL
+      setBusinessLogo(downloadURL); // Save Firebase URL
+  }
+};
+
+const takePhoto = async () => {
+  const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 1,
+  });
+  if (!result.canceled) {
+      const downloadURL = await uploadImageToStorage(result.assets[0].uri); // Upload and get URL
+      setBusinessLogo(downloadURL); // Save Firebase URL
+  }
+};
 
   const handleCategorySelect = (category) => {
     // Toggle category selection
@@ -53,26 +74,26 @@ const AddBusiness = ({ onClose }) => {
   };
 
   const handleSubmit = async () => {
-    if (!businessName || !businessDescription || !businessLogo || category.length === 0) {
-      Alert.alert('Error', 'All fields are required.');
-      return;
-    }
+  if (!businessName.trim() || !businessDescription.trim() || !businessLogo || category.length === 0) {
+    Alert.alert('Error', 'All fields are required.');
+    return;
+  }
 
-    try {
-      const db = getFirestore(); // Initialize Firestore
-      await addDoc(collection(db, 'businesses'), {
-        businessName,
-        businessDescription,
-        businessLogo,
-        category,
-      });
+  try {
+    const db = getFirestore(); // Initialize Firestore
+    await addDoc(collection(db, 'businesses'), {
+      name: businessName.trim(), // Align field names with expected format
+      description: businessDescription.trim(),
+      logo: businessLogo, // Ensure this is the correct string format (URI or Firebase URL)
+      category, // Array of strings
+    });
 
-      setIsSuccessModalVisible(true); // Show success modal
-    } catch (e) {
-      console.error('Error adding document: ', e);
-      Alert.alert('Error', 'Failed to add business.');
-    }
-  };
+    setIsSuccessModalVisible(true); // Show success modal
+  } catch (e) {
+    console.error('Error adding document: ', e);
+    Alert.alert('Error', 'Failed to add business.');
+  }
+};
 
   return (
     <ScrollView style={styles.container}>
