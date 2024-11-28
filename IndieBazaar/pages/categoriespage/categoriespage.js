@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-// import NavBar from '../components/NavBar'; // Adapted NavBar component for React Native
-import DropDown from '../../components/dropdown/dropdown'; // Adapted DropDown component for React Native
+import DropDown from '../../components/dropdown/dropdown';
 import { useNavigation } from '@react-navigation/native';
 
 import accessory from '../../assets/acc.jpg';
@@ -12,7 +11,6 @@ import Health from '../../assets/health.jpg';
 import book from '../../assets/books.jpg';
 import handmade from '../../assets/handmade.jpg';
 import stationary from '../../assets/stationary.jpg';
-import mainlogo from '../../assets/logoimage.jpg';
 
 const CategoriesPage = () => {
     const navigation = useNavigation();
@@ -28,21 +26,16 @@ const CategoriesPage = () => {
         { name: 'Handmade', image: handmade },
     ];
 
-    const [selectedCategories, setSelectedCategories] = useState([]);
-
     const handleCategoryClick = (category) => {
-        navigation.navigate('Browse', { categories: [category.name] });
+        navigation.navigate('Browse', { selectedCategory: category.name });
     };
 
     return (
         <View style={styles.container}>
-            {/* <NavBar title="IndieBazaar" logoSrc={mainlogo} /> */}
             <DropDown
-                options={categories.map((category) => category.name)} // Pass category names as options
+                options={categories.map((category) => category.name)}
                 onSelect={(selectedCategory) => {
                     console.log('Selected category:', selectedCategory);
-                    // Navigate or filter based on the selected category
-                    setSelectedCategories(selectedCategory);
                 }}
                 placeholder="Select a category"
             />
@@ -79,19 +72,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#E6E1FF',
         borderRadius: 10,
         margin: 10,
-        elevation: 4, // Adds shadow on Android
+        elevation: 4,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
         alignItems: 'center',
         overflow: 'hidden',
-        paddingTop: 22,    // Padding on top
-        paddingRight: 10,  // Padding on right
-        paddingBottom: 15, // Padding on bottom
-        paddingLeft: 10,  
+        paddingTop: 22,
+        paddingRight: 10,
+        paddingBottom: 15,
+        paddingLeft: 10,
     },
-    
     categoryImage: {
         width: '100%',
         height: '70%',
